@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NetflixFeo</string>
+    <string name="imagen_peli">imagen de una peli</string>
+    <string name="pelis">peliculas</string>
+</resources>

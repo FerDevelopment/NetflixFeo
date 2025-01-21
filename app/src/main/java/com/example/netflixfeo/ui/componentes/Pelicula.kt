@@ -1,0 +1,63 @@
+package com.example.netflixfeo.ui.componentes
+
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.example.netflixfeo.R
+import com.example.netflixfeo.modelo.Pelicula
+
+@Composable
+fun CaratulaPeli(pelicula : Pelicula , onClickPeli : (Pelicula) -> Unit) {
+    Card(modifier = Modifier.padding(8.dp) , onClick = { onClickPeli(pelicula) }
+        ) {
+        AsyncImage(
+            model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(pelicula.caratula)
+                    .crossfade(true)
+                    .build() ,
+            error = painterResource(id = R.drawable.error) ,
+            placeholder = painterResource(id = R.drawable.cargando) ,
+            contentDescription = stringResource(R.string.imagen_peli) ,
+            contentScale = ContentScale.Crop ,
+            modifier = Modifier
+                    .clip(RectangleShape)
+                    .height(200.dp)
+                    .width(150.dp)
+                  )
+    }
+}
+
+@Composable
+fun CaratulaPeli(pelicula : Pelicula , alto : Dp = 200.dp , ancho : Dp = 150.dp) {
+    Card(
+        modifier = Modifier.padding(8.dp)
+        ) {
+        AsyncImage(
+            model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(pelicula.caratula)
+                    .crossfade(true)
+                    .build() ,
+            error = painterResource(id = R.drawable.error) ,
+            placeholder = painterResource(id = R.drawable.cargando) ,
+            contentDescription = stringResource(R.string.imagen_peli) ,
+            contentScale = ContentScale.Crop ,
+            modifier = Modifier
+                    .clip(RectangleShape)
+                    .height(alto)
+                    .width(ancho)
+                  )
+    }
+}
