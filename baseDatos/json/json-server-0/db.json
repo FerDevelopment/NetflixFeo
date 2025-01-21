@@ -1,0 +1,165 @@
+{
+    "peliculas": [
+      {
+        "nombre": "El origen",
+        "director": "Christopher Nolan",
+        "actorPrincipal": "Leonardo DiCaprio",
+        "duracionMinutos": 148,
+        "caratula": "http://10.0.2.2:3000/assets/images/elorigen.jpg"
+        
+      },
+      {
+        "nombre": "Sueños de libertad",
+        "director": "Frank Darabont",
+        "actorPrincipal": "Tim Robbins",
+        "duracionMinutos": 142,
+        "caratula": "http://10.0.2.2:3000/assets/images/suenyosdelibertad.jpg"
+        
+      },
+      {
+        "nombre": "El padrino",
+        "director": "Francis Ford Coppola",
+        "actorPrincipal": "Marlon Brando",
+        "duracionMinutos": 175,
+        "caratula": "http://10.0.2.2:3000/assets/images/elpadrino.jpg"
+        
+      },
+      {
+        "nombre": "El caballero oscuro",
+        "director": "Christopher Nolan",
+        "actorPrincipal": "Christian Bale",
+        "duracionMinutos": 152,
+        "caratula": "http://10.0.2.2:3000/assets/images/elcaballerooscuro.jpg"
+        
+      },
+      {
+        "nombre": "Pulp Fiction",
+        "director": "Quentin Tarantino",
+        "actorPrincipal": "John Travolta",
+        "duracionMinutos": 154,
+        "caratula": "http://10.0.2.2:3000/assets/images/pulpfiction.jpg"
+        
+      },
+      {
+        "nombre": "Forrest Gump",
+        "director": "Robert Zemeckis",
+        "actorPrincipal": "Tom Hanks",
+        "duracionMinutos": 142,
+        "caratula": "http://10.0.2.2:3000/assets/images/forrestgump.jpg"
+        
+      },
+      {
+        "nombre": "La lista de Schindler",
+        "director": "Steven Spielberg",
+        "actorPrincipal": "Liam Neeson",
+        "duracionMinutos": 195,
+        "caratula": "http://10.0.2.2:3000/assets/images/lalistadeschindler.jpg"
+        
+      },
+      {
+        "nombre": "Gladiador",
+        "director": "Ridley Scott",
+        "actorPrincipal": "Russell Crowe",
+        "duracionMinutos": 155,
+        "caratula": "http://10.0.2.2:3000/assets/images/gladiator.jpg"
+        
+      },
+      {
+        "nombre": "Titanic",
+        "director": "James Cameron",
+        "actorPrincipal": "Leonardo DiCaprio",
+        "duracionMinutos": 195,
+        "caratula": "http://10.0.2.2:3000/assets/images/titanic.jpg"
+        
+      },
+      {
+        "nombre": "Avatar",
+        "director": "James Cameron",
+        "actorPrincipal": "Sam Worthington",
+        "duracionMinutos": 162,
+        "caratula": "http://10.0.2.2:3000/assets/images/avatar.jpg"
+        
+      },
+      {
+        "nombre": "El señor de los anillos: La comunidad del anillo",
+        "director": "Peter Jackson",
+        "actorPrincipal": "Elijah Wood",
+        "duracionMinutos": 178,
+        "caratula": "http://10.0.2.2:3000/assets/images/senoranilloscomunidadanillos.jpg"
+        
+      },
+      {
+        "nombre": "El señor de los anillos: Las dos torres",
+        "director": "Peter Jackson",
+        "actorPrincipal": "Viggo Mortensen",
+        "duracionMinutos": 179,
+        "caratula": "http://10.0.2.2:3000/assets/images/elsenyordelosanilloslasdostorres.jpg"
+        
+      },
+      {
+        "nombre": "El señor de los anillos: El retorno del rey",
+        "director": "Peter Jackson",
+        "actorPrincipal": "Elijah Wood",
+        "duracionMinutos": 201,
+        "caratula": "http://10.0.2.2:3000/assets/images/elsenyordelosanillos.jpg"
+        
+      },
+      {
+        "nombre": "Matrix",
+        "director": "Lana Wachowski y Lilly Wachowski",
+        "actorPrincipal": "Keanu Reeves",
+        "duracionMinutos": 136,
+        "caratula": "http://10.0.2.2:3000/assets/images/matrix.jpg"
+        
+      },
+      {
+        "nombre": "Avengers: Endgame",
+        "director": "Anthony y Joe Russo",
+        "actorPrincipal": "Robert Downey Jr.",
+        "duracionMinutos": 181,
+        "caratula": "http://10.0.2.2:3000/assets/images/marvelEndgame.jpg"
+        
+      },
+      {
+        "nombre": "Coco",
+        "director": "Lee Unkrich y Adrian Molina",
+        "actorPrincipal": "Anthony Gonzalez",
+        "duracionMinutos": 105,
+        "caratula": "http://10.0.2.2:3000/assets/images/coco.jpg"
+        
+      },
+      {
+        "nombre": "Toy Story",
+        "director": "John Lasseter",
+        "actorPrincipal": "Tom Hanks",
+        "duracionMinutos": 81,
+        "caratula": "http://10.0.2.2:3000/assets/images/toystory.jpg"
+        
+      },
+      {
+        "nombre": "Jurassic Park",
+        "director": "Steven Spielberg",
+        "actorPrincipal": "Sam Neill",
+        "duracionMinutos": 127,
+        "caratula": "http://10.0.2.2:3000/assets/images/jurassicpark.jpg"
+        
+      },
+      {
+        "nombre": "Buscando a Nemo",
+        "director": "Andrew Stanton",
+        "actorPrincipal": "Albert Brooks",
+        "duracionMinutos": 100,
+        "caratula": "http://10.0.2.2:3000/assets/images/buscandoanemo.jpg"
+        
+      },
+      {
+        "nombre": "La vida es bella",
+        "director": "Roberto Benigni",
+        "actorPrincipal": "Roberto Benigni",
+        "duracionMinutos": 116,
+        "caratula": "http://10.0.2.2:3000/assets/images/lavidaesbella.jpg"
+        
+      }
+    ]
+  }
+  
