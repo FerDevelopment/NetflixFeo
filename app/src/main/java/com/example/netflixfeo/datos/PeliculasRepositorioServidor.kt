@@ -5,7 +5,7 @@ import com.example.netflixfeo.modelo.Pelicula
 
 interface PeliculasRepositorioServidor {
     suspend fun obtenerPeliculas() : List<Pelicula>
-    suspend fun actualizarPelicula(pelicula : Pelicula) : Pelicula
+    //suspend fun actualizarPelicula(pelicula : Pelicula) : Pelicula
 }
 
 class ConexionPeliculasRepositorioServidor(
@@ -14,6 +14,9 @@ class ConexionPeliculasRepositorioServidor(
                                           ) : PeliculasRepositorioServidor {
     override suspend fun obtenerPeliculas() : List<Pelicula> = repositorioServidorApi.obtenerPelis()
 
+   /*
     override suspend fun actualizarPelicula(pelicula : Pelicula) : Pelicula =
             repositorioServidorApi.actualizarPeli(pelicula)
+
+    */
 }

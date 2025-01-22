@@ -15,6 +15,5 @@ data class Pelicula(
         val duracionMinutos : Int ,
         @SerialName(value = "caratula")
         val caratula : String ,
-        @SerialName(value = "id")
-        val id : String ,
+
         )

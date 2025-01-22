@@ -9,7 +9,7 @@ import retrofit2.http.Path
 interface PelisApiServidorApi {
     @GET("peliculas")
     suspend fun obtenerPelis() : List<Pelicula>
-
+/*
     @PUT("peliculas/{id}")
     suspend fun actualizarPeli(
             @Body
@@ -17,4 +17,6 @@ interface PelisApiServidorApi {
             @Path("id")
             id : String = pelicula.id
                               ): Pelicula
+                              */
+
 }

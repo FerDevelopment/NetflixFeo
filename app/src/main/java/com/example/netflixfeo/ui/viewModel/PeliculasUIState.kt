@@ -19,9 +19,12 @@ import java.io.IOException
 sealed interface PeliculasUIState {
     data class ObtenerPelis(val pelis : List<Pelicula>) : PeliculasUIState
 
+    /*
     data class ActualizarPeli(
             val pelicula : Pelicula , val id : String = pelicula.id
                              ) : PeliculasUIState
+
+     */
 
     object Error : PeliculasUIState
     object Cargando : PeliculasUIState
@@ -30,7 +33,7 @@ sealed interface PeliculasUIState {
 class PeliculaViewModel(private val peliculasRepositorioServidor : PeliculasRepositorioServidor) :
         ViewModel() {
     var peliculasUIState : PeliculasUIState by mutableStateOf(PeliculasUIState.Cargando)
-    var peliculaSelcionada : Pelicula by mutableStateOf(Pelicula("" , "" , "" , 0 , "" , ""))
+    var peliculaSelcionada : Pelicula by mutableStateOf(Pelicula("" , "" , "" , 0 , "" ))
 
     fun obtenerPelis() {
         viewModelScope.launch {
