@@ -18,9 +18,7 @@ abstract class PuntuacionBaseDatos : RoomDatabase() {
 
         fun obtenerBaseDatos(context: Context): PuntuacionBaseDatos {
             return Instance ?: synchronized(this) {
-                Room.databaseBuilder(context, PuntuacionBaseDatos::class.java, "inventariodb")
-                    .build()
-                    .also { Instance = it }
+                Room.databaseBuilder(context, PuntuacionBaseDatos::class.java, "puntuaciondb").build().also { Instance = it }
             }
         }
     }

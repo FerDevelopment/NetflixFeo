@@ -25,15 +25,16 @@ import androidx.compose.ui.unit.dp
 import com.example.netflixfeo.modelo.Puntuacion
 
 @Composable
-fun EstrellasPuntacion(puntuacion: Puntuacion){
+fun EstrellasPuntacion(puntuacion: Puntuacion, actualizarDatosPuntuacion: (Double) -> Unit){
 
-    var rating by remember { mutableStateOf(1.0) } //default rating will be 1
+    var rating by remember { mutableStateOf(puntuacion.puntuacion) } //default rating will be 1
 
     StarRatingBar(
         maxStars = 5,
         rating = rating,
         onRatingChanged = {
             rating = it
+            actualizarDatosPuntuacion(it)
         }
     )
 

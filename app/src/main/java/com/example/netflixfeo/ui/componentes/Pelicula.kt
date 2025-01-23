@@ -1,9 +1,11 @@
 package com.example.netflixfeo.ui.componentes
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -60,4 +62,15 @@ fun CaratulaPeli(pelicula : Pelicula , alto : Dp = 200.dp , ancho : Dp = 150.dp)
                     .width(ancho)
                   )
     }
+}
+@Composable
+fun MostrarPeli(peliculaSelcionada: Pelicula) {
+    Column {
+        CaratulaPeli(peliculaSelcionada, 350.dp, 250.dp)
+        Text(text = "Titulo: " + peliculaSelcionada.nombre)
+        Text(text = "Actor principal " + peliculaSelcionada.actorPrincipal)
+        Text(text = "Duracion: " + peliculaSelcionada.duracionMinutos)
+        Text(text = "Director: " + peliculaSelcionada.director)
+    }
+
 }

@@ -53,7 +53,13 @@ class PeliculaViewModel(
     var puntuacionUIState: PuntuacionUIState by mutableStateOf(PuntuacionUIState.Cargando)
         private set
 
-     var puntuacionPeliPulsada: Puntuacion by mutableStateOf( Puntuacion(identificadorPeli = "", puntuacion = 0.0, vecesVistas = 0))
+    var puntuacionPeliPulsada: Puntuacion by mutableStateOf(
+        Puntuacion(
+            identificadorPeli = "",
+            puntuacion = 0.0,
+            vecesVistas = 0
+        )
+    )
         private set
 
     fun obtenerPelis() {
@@ -72,6 +78,53 @@ class PeliculaViewModel(
                 PeliculasUIState.Error
             }
         }
+    }
+
+    fun obtenerPuntuacion(pelicula: Pelicula) {
+        viewModelScope.launch {
+            puntuacionUIState = try {
+                val puntuacion = puntuacionRepositorio.obtenerPuntuacion(pelicula.nombre)
+                puntuacionPeliPulsada = puntuacion
+                PuntuacionUIState.ObtenerExito(puntuacion)
+            } catch (e: Exception) {
+                val puntuacion = actualizarOSubirPuntuacion(
+                    Puntuacion(
+                        identificadorPeli = pelicula.nombre,
+                        vecesVistas = 0,
+                        puntuacion = 0.0
+                    )
+                )
+                puntuacionPeliPulsada = puntuacion
+                PuntuacionUIState.ObtenerExito(
+                    puntuacion
+                )
+
+
+            }
+        }
+    }
+
+    fun actualizarPuntosPuntuacion(puntos: Double) {
+        viewModelScope.launch {
+            puntuacionPeliPulsada = puntuacionPeliPulsada.copy(puntuacion = puntos)
+            puntuacionRepositorio.actualizar(puntuacionPeliPulsada)
+        }
+
+    }
+
+    private suspend fun actualizarOSubirPuntuacion(puntuacion: Puntuacion): Puntuacion {
+
+        try {
+            puntuacionRepositorio.actualizar(puntuacion)
+            return puntuacion
+        } catch (e: Exception) {
+
+            puntuacionRepositorio.insertar(puntuacion)
+
+            return puntuacion
+        }
+
+
     }
 
     fun actualizarPeliculaPulsada(pelicula: Pelicula) {
