@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.netflixfeo.modelo.Pelicula
 import com.example.netflixfeo.ui.componentes.CaratulaPeli
+import com.example.netflixfeo.ui.componentes.MostrarPeli
 
 @Composable
 fun MostrarPelis(peliculas: List<Pelicula>,
@@ -99,14 +100,3 @@ private fun BTNReproducir(onClickReproducir: () -> Unit) {
    }
 }
 
-@Composable
-fun MostrarPeli(peliculaSelcionada: Pelicula) {
-   Column {
-      CaratulaPeli(peliculaSelcionada, 350.dp, 250.dp)
-      Text(text = "Titulo: " + peliculaSelcionada.nombre)
-      Text(text = "Actor principal " + peliculaSelcionada.actorPrincipal)
-      Text(text = "Duracion: " + peliculaSelcionada.duracionMinutos)
-      Text(text = "Director: " + peliculaSelcionada.director)
-   }
-
-}
