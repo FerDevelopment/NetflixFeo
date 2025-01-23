@@ -70,6 +70,7 @@ dependencies {
     implementation(libs.squareup.okhttp3)
     implementation(libs.coil.kt)
     implementation(libs.androidx.room.common)
+    implementation(libs.androidx.room.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

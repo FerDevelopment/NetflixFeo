@@ -11,13 +11,15 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.netflixfeo.Peliculas
 import com.example.netflixfeo.datos.PeliculasRepositorioServidor
+import com.example.netflixfeo.datos.PuntuacionRepositorio
 import com.example.netflixfeo.modelo.Pelicula
+import com.example.netflixfeo.modelo.Puntuacion
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface PeliculasUIState {
-    data class ObtenerPelis(val pelis : List<Pelicula>) : PeliculasUIState
+    data class ObtenerPelis(val pelis: List<Pelicula>) : PeliculasUIState
 
     /*
     data class ActualizarPeli(
@@ -30,10 +32,29 @@ sealed interface PeliculasUIState {
     object Cargando : PeliculasUIState
 }
 
-class PeliculaViewModel(private val peliculasRepositorioServidor : PeliculasRepositorioServidor) :
-        ViewModel() {
-    var peliculasUIState : PeliculasUIState by mutableStateOf(PeliculasUIState.Cargando)
-    var peliculaSelcionada : Pelicula by mutableStateOf(Pelicula("" , "" , "" , 0 , "" ))
+sealed interface PuntuacionUIState {
+    data class ObtenerExitoTodos(val puntuaciones: List<Puntuacion>) : PuntuacionUIState
+    data class ObtenerExito(val puntuacion: Puntuacion) : PuntuacionUIState
+
+    object CrearExito : PuntuacionUIState
+    object ActualizarExito : PuntuacionUIState
+    object Error : PuntuacionUIState
+    object Cargando : PuntuacionUIState
+}
+
+class PeliculaViewModel(
+    private val peliculasRepositorioServidor: PeliculasRepositorioServidor,
+    private val puntuacionRepositorio: PuntuacionRepositorio
+) :
+    ViewModel() {
+    var peliculasUIState: PeliculasUIState by mutableStateOf(PeliculasUIState.Cargando)
+    var peliculaSelcionada: Pelicula by mutableStateOf(Pelicula("", "", "", 0, ""))
+
+    var puntuacionUIState: PuntuacionUIState by mutableStateOf(PuntuacionUIState.Cargando)
+        private set
+
+     var puntuacionPeliPulsada: Puntuacion by mutableStateOf( Puntuacion(identificadorPeli = "", puntuacion = 0.0, vecesVistas = 0))
+        private set
 
     fun obtenerPelis() {
         viewModelScope.launch {
@@ -45,26 +66,28 @@ class PeliculaViewModel(private val peliculasRepositorioServidor : PeliculasRepo
                     peliculaSelcionada = listaPelis.get(0)
                 }
                 PeliculasUIState.ObtenerPelis(listaPelis)
-            }
-            catch (e : IOException) {
+            } catch (e: IOException) {
                 PeliculasUIState.Error
-            }
-            catch (e : HttpException) {
+            } catch (e: HttpException) {
                 PeliculasUIState.Error
             }
         }
     }
 
-    fun actualizarPeliculaPulsada(pelicula : Pelicula) {
+    fun actualizarPeliculaPulsada(pelicula: Pelicula) {
         peliculaSelcionada = pelicula
     }
 
     companion object {
-        val Factory : ViewModelProvider.Factory = viewModelFactory {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val aplicacion = (this[APPLICATION_KEY] as Peliculas)
                 val peliculaRepo = aplicacion.contenedor.peliculasRepositorioServidor
-                PeliculaViewModel(peliculasRepositorioServidor = peliculaRepo)
+                val puntuacionRepo = aplicacion.contenedor.puntuacionRepositorio
+                PeliculaViewModel(
+                    peliculasRepositorioServidor = peliculaRepo,
+                    puntuacionRepositorio = puntuacionRepo
+                )
             }
         }
 

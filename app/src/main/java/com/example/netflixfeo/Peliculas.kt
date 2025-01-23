@@ -8,6 +8,6 @@ class Peliculas : Application() {
     lateinit var contenedor : ContenedorApp
     override fun onCreate() {
         super.onCreate()
-        contenedor = PelisContenedorApp()
+        contenedor = PelisContenedorApp(this)
     }
 }
