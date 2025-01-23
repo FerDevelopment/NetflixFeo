@@ -1,8 +1,6 @@
 package com.example.netflixfeo.ui.componentes
 
-
-
-import android.widget.RatingBar
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -70,7 +68,7 @@ fun StarRatingBar(
                             onRatingChanged(i.toDouble())
                         }
                     )
-                    .width(starSize).height(starSize)
+                    .width(starSize).height(starSize).background(Color.Black)
             )
 
             if (i < maxStars) {
