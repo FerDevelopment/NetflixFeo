@@ -1,7 +1,6 @@
 package com.example.netflixfeo.ui.componentes
 
 
-
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -26,12 +25,12 @@ import androidx.compose.ui.unit.dp
 import com.example.netflixfeo.modelo.Puntuacion
 
 @Composable
-fun EstrellasPuntacion(puntuacion: Puntuacion, actualizarDatosPuntuacion: (Double) -> Unit){
+fun EstrellasPuntacion(puntuacion: Puntuacion, actualizarDatosPuntuacion: (Double) -> Unit) {
 
     var rating by remember { mutableStateOf(puntuacion.puntuacion) } //default rating will be 1
 
     Column {
-        Text(text = "Puntuacion de la peli: "+ puntuacion.puntuacion)
+        Text(text = "Veces vistas peli: " + puntuacion.vecesVistas)
         StarRatingBar(
             maxStars = 5,
             rating = rating,
@@ -41,7 +40,6 @@ fun EstrellasPuntacion(puntuacion: Puntuacion, actualizarDatosPuntuacion: (Doubl
             }
         )
     }
-
 
 
 }
@@ -75,7 +73,8 @@ fun StarRatingBar(
                             onRatingChanged(i.toDouble())
                         }
                     )
-                    .width(starSize).height(starSize)
+                    .width(starSize)
+                    .height(starSize)
             )
 
             if (i < maxStars) {

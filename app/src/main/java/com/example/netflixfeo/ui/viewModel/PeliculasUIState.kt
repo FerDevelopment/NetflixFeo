@@ -101,11 +101,8 @@ class PeliculaViewModel(
     }
 
     fun actualizarPuntosPuntuacion(puntos: Double) {
-
         puntuacionPeliPulsada = puntuacionPeliPulsada.copy(puntuacion = puntos)
         actualizarOSubirPuntuacion(puntuacionPeliPulsada)
-
-
     }
 
     fun actualizarOSubirPuntuacion(puntuacion: Puntuacion) {
@@ -129,6 +126,14 @@ class PeliculaViewModel(
 
     fun actualizarPeliculaPulsada(pelicula: Pelicula) {
         peliculaSelcionada = pelicula
+    }
+
+    fun actualizarVisualizacion() {
+
+        puntuacionPeliPulsada = puntuacionPeliPulsada.copy(
+            vecesVistas = puntuacionPeliPulsada.vecesVistas + 1
+        )
+        actualizarOSubirPuntuacion(puntuacionPeliPulsada)
     }
 
     companion object {

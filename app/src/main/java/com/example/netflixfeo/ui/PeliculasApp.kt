@@ -19,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -32,12 +33,12 @@ import androidx.navigation.compose.rememberNavController
 import com.example.netflixfeo.R
 import com.example.netflixfeo.modelo.Ruta
 import com.example.netflixfeo.ui.componentes.MostrarAlertNoEstadistica
+import com.example.netflixfeo.ui.componentes.VerPelicula
 import com.example.netflixfeo.ui.pantallas.MostrarEstadisticasPelicula
 import com.example.netflixfeo.ui.pantallas.MostrarPelis
 import com.example.netflixfeo.ui.viewModel.PeliculaViewModel
 import com.example.netflixfeo.ui.viewModel.PeliculasUIState
 import com.example.netflixfeo.ui.viewModel.PuntuacionUIState
-import kotlinx.coroutines.flow.callbackFlow
 
 enum class Pantallas(
     @StringRes val titulo: Int
@@ -138,6 +139,7 @@ fun PeliculasApp(
     ) { innerPadding ->
         val peliculasUIState = viewModel.peliculasUIState
         val puntuacionUIState = viewModel.puntuacionUIState
+        var mostrarDialogo by remember { mutableStateOf(false) }
         NavHost(
             navController = navController,
             startDestination = Pantallas.PantallaPelis.name,
@@ -154,7 +156,20 @@ fun PeliculasApp(
                                 viewModel.actualizarPeliculaPulsada(it)
                             },
                             viewModel.peliculaSelcionada,
-                            onClickReproducir = {},
+                            onClickReproducir = {
+                                mostrarDialogo = true
+                            },
+                            Dialogo = {
+                                VerPelicula(
+                                    onVerPelicula = {
+                                        viewModel.actualizarVisualizacion()
+                                    },
+                                    onCambiarDialogo = {
+                                        mostrarDialogo = false
+                                    },
+                                    mostrarDialogo
+                                )
+                            },
                             onClickEstadistica = {
                                 viewModel.obtenerPuntuacion(viewModel.peliculaSelcionada)
                                 navController.navigate(Pantallas.PantallaEstadisticas.name)
