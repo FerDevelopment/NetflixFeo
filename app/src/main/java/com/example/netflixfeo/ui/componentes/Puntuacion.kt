@@ -1,6 +1,8 @@
 package com.example.netflixfeo.ui.componentes
 
-import androidx.compose.foundation.background
+
+
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -10,6 +12,7 @@ import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,14 +30,18 @@ fun EstrellasPuntacion(puntuacion: Puntuacion, actualizarDatosPuntuacion: (Doubl
 
     var rating by remember { mutableStateOf(puntuacion.puntuacion) } //default rating will be 1
 
-    StarRatingBar(
-        maxStars = 5,
-        rating = rating,
-        onRatingChanged = {
-            rating = it
-            actualizarDatosPuntuacion(it)
-        }
-    )
+    Column {
+        Text(text = "Puntuacion de la peli: "+ puntuacion.puntuacion)
+        StarRatingBar(
+            maxStars = 5,
+            rating = rating,
+            onRatingChanged = {
+                rating = it
+                actualizarDatosPuntuacion(it)
+            }
+        )
+    }
+
 
 
 }
@@ -54,9 +61,9 @@ fun StarRatingBar(
         verticalAlignment = Alignment.CenterVertically
     ) {
         for (i in 1..maxStars) {
-            val isSelected = i <= rating
+            val isSelected = i <= rating.toInt()
             val icon = if (isSelected) Icons.Filled.Star else Icons.Default.Star
-            val iconTintColor = if (isSelected) Color(0xFFFFC700) else Color(0x20FFFFFF)
+            val iconTintColor = if (isSelected) Color(0xFFFFC700) else Color(0x20322E2E)
             Icon(
                 imageVector = icon,
                 contentDescription = null,
@@ -68,7 +75,7 @@ fun StarRatingBar(
                             onRatingChanged(i.toDouble())
                         }
                     )
-                    .width(starSize).height(starSize).background(Color.Black)
+                    .width(starSize).height(starSize)
             )
 
             if (i < maxStars) {

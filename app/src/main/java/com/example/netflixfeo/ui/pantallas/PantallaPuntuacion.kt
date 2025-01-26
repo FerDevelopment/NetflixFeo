@@ -8,7 +8,11 @@ import com.example.netflixfeo.ui.componentes.EstrellasPuntacion
 import com.example.netflixfeo.ui.componentes.MostrarPeli
 
 @Composable
-fun MostrarEstadisticasPelicula(peliculaSelcionada: Pelicula, puntuacionPeliPulsada: Puntuacion, actualizarPuntosPuntuacion: (Double) -> Unit) {
+fun MostrarEstadisticasPelicula(
+    peliculaSelcionada: Pelicula,
+    puntuacionPeliPulsada: Puntuacion,
+    actualizarPuntosPuntuacion: (Double) -> Unit
+) {
 
     Column {
         MostrarPeli(peliculaSelcionada = peliculaSelcionada)

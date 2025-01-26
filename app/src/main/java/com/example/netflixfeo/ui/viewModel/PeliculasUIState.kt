@@ -45,19 +45,17 @@ sealed interface PuntuacionUIState {
 class PeliculaViewModel(
     private val peliculasRepositorioServidor: PeliculasRepositorioServidor,
     private val puntuacionRepositorio: PuntuacionRepositorio
-) :
-    ViewModel() {
+) : ViewModel() {
     var peliculasUIState: PeliculasUIState by mutableStateOf(PeliculasUIState.Cargando)
     var peliculaSelcionada: Pelicula by mutableStateOf(Pelicula("", "", "", 0, ""))
 
     var puntuacionUIState: PuntuacionUIState by mutableStateOf(PuntuacionUIState.Cargando)
         private set
 
+
     var puntuacionPeliPulsada: Puntuacion by mutableStateOf(
         Puntuacion(
-            identificadorPeli = "",
-            puntuacion = 0.0,
-            vecesVistas = 0
+            identificadorPeli = "", puntuacion = 0.0, vecesVistas = 0
         )
     )
         private set
@@ -87,13 +85,11 @@ class PeliculaViewModel(
                 puntuacionPeliPulsada = puntuacion
                 PuntuacionUIState.ObtenerExito(puntuacion)
             } catch (e: Exception) {
-                val puntuacion = actualizarOSubirPuntuacion(
-                    Puntuacion(
-                        identificadorPeli = pelicula.nombre,
-                        vecesVistas = 0,
-                        puntuacion = 0.0
-                    )
+                val puntuacion = Puntuacion(
+                    identificadorPeli = pelicula.nombre, vecesVistas = 0, puntuacion = 0.0
                 )
+                puntuacionRepositorio.insertar(puntuacion)
+
                 puntuacionPeliPulsada = puntuacion
                 PuntuacionUIState.ObtenerExito(
                     puntuacion
@@ -105,23 +101,27 @@ class PeliculaViewModel(
     }
 
     fun actualizarPuntosPuntuacion(puntos: Double) {
-        viewModelScope.launch {
-            puntuacionPeliPulsada = puntuacionPeliPulsada.copy(puntuacion = puntos)
-            puntuacionRepositorio.actualizar(puntuacionPeliPulsada)
-        }
+
+        puntuacionPeliPulsada = puntuacionPeliPulsada.copy(puntuacion = puntos)
+        actualizarOSubirPuntuacion(puntuacionPeliPulsada)
+
 
     }
 
-    private suspend fun actualizarOSubirPuntuacion(puntuacion: Puntuacion): Puntuacion {
+    fun actualizarOSubirPuntuacion(puntuacion: Puntuacion) {
 
-        try {
-            puntuacionRepositorio.actualizar(puntuacion)
-            return puntuacion
-        } catch (e: Exception) {
+        viewModelScope.launch {
+            try {
+                puntuacionRepositorio.actualizar(puntuacion)
+                puntuacionPeliPulsada = puntuacion
 
-            puntuacionRepositorio.insertar(puntuacion)
+            } catch (e: Exception) {
 
-            return puntuacion
+                puntuacionRepositorio.insertar(puntuacion)
+                puntuacionPeliPulsada = puntuacion
+
+
+            }
         }
 
 

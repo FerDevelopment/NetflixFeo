@@ -17,11 +17,11 @@ interface PuntuacionDao {
     suspend fun obtenerTodasLasPuntuaciones(): List<Puntuacion>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertar(producto: Puntuacion)
+    suspend fun insertar(puntuacion: Puntuacion)
 
     @Update
-    suspend fun actualizar(producto: Puntuacion)
+    suspend fun actualizar(puntuacion: Puntuacion)
 
     @Delete
-    suspend fun eliminar(producto: Puntuacion)
+    suspend fun eliminar(puntuacion: Puntuacion)
 }
