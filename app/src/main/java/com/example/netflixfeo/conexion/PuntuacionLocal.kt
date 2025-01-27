@@ -4,13 +4,16 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.netflixfeo.dao.PeliculasVistasDao
 import com.example.netflixfeo.dao.PuntuacionDao
+import com.example.netflixfeo.modelo.PeliculaVista
 import com.example.netflixfeo.modelo.Puntuacion
 
-@Database(entities = [Puntuacion::class], version = 1, exportSchema = false)
+@Database(entities = [Puntuacion::class, PeliculaVista::class], version = 1, exportSchema = false)
 abstract class PuntuacionBaseDatos : RoomDatabase() {
 
     abstract fun puntuacionDao(): PuntuacionDao
+    abstract fun peliculaVistasDao(): PeliculasVistasDao
 
     companion object {
         @Volatile
@@ -22,5 +25,7 @@ abstract class PuntuacionBaseDatos : RoomDatabase() {
                     .build().also { Instance = it }
             }
         }
+
+       
     }
 }

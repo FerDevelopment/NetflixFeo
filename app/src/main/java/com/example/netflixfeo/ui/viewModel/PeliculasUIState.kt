@@ -84,6 +84,12 @@ class PeliculaViewModel(
 
     var peliculasVistas: MutableList<Pelicula> = mutableListOf()
 
+
+    init {
+        obtenerPelis()
+        actualizarPelisVistas()
+    }
+
     fun obtenerPelis() {
         viewModelScope.launch {
             peliculasUIState = PeliculasUIState.Cargando
@@ -154,17 +160,25 @@ class PeliculaViewModel(
 
     fun actualizarListaPeliculasVistas() {
         viewModelScope.launch {
+            peliculasVistas.clear()
             for (peliculaVista in listaPelisVistas) {
                 for (pelicula in listaPelis) {
                     Log.e("A", "Paso por aqui")
                     if (pelicula.nombre.equals(peliculaVista.nombrePeli)) {
                         Log.e("B", "Me anyado")
-                        peliculasVistas.plus(pelicula)
+                        peliculasVistas.add(pelicula)
                         break
                     }
                 }
             }
+            if (peliculaSelcionadaVista.nombre.equals("")) {
+                try {
+                    peliculaSelcionadaVista = peliculasVistas.get(0)
+                } catch (e: Exception) {
 
+                }
+
+            }
 
         }
 
@@ -175,12 +189,11 @@ class PeliculaViewModel(
     fun subirPeliculaVista() {
 
         viewModelScope.launch {
-            try {
-                peliculasVistasRepositorio.obtenerPeliculaVista(peliculaSelcionada.nombre)
-            } catch (e: Exception) {
-                peliculasVistasRepositorio.insertar(PeliculaVista(peliculaSelcionada.nombre))
 
+            if (peliculasVistasRepositorio.obtenerPeliculaVista(peliculaSelcionada.nombre) == 0) {
+                peliculasVistasRepositorio.insertar(PeliculaVista(peliculaSelcionada.nombre))
             }
+
         }
 
 
@@ -188,10 +201,11 @@ class PeliculaViewModel(
 
     fun actualizarPelisVistas() {
         viewModelScope.launch {
+
             obtenerPelisVistas()
             actualizarListaPeliculasVistas()
-        }
 
+        }
 
     }
 

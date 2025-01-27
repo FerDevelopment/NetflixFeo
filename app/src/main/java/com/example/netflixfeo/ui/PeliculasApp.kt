@@ -3,7 +3,6 @@ package com.example.netflixfeo.ui
 import android.graphics.Color.rgb
 import androidx.annotation.StringRes
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -84,6 +83,7 @@ fun PeliculasApp(
                                 onClick = {
                                     selectedItem = indice
                                     navController.navigate(ruta.ruta)
+
                                 }, colors = IconButtonColors(
                                     contentColor = Color(rgb(160, 71, 71)),
                                     disabledContentColor = Color.Yellow,
@@ -142,7 +142,10 @@ fun PeliculasApp(
                     is PeliculasUIState.ObtenerPelis -> {
                         MostrarPelis(peliculasUIState.pelis, onClickPeli = {
                             viewModel.actualizarPeliculaPulsada(it)
-                        }, viewModel.peliculaSelcionada, onClickReproducir = {
+                        }, viewModel.peliculaSelcionada, onClickEstadistica = {
+                            viewModel.obtenerPuntuacion(viewModel.peliculaSelcionada)
+                            navController.navigate(Pantallas.PantallaEstadisticas.name)
+                        }, onClickReproducir = {
                             mostrarDialogo = true
                         }, Dialogo = {
                             VerPelicula(onVerPelicula = {
@@ -153,10 +156,9 @@ fun PeliculasApp(
                                 mostrarDialogo = false
                             }, mostrarDialogo
                             )
-                        }, onClickEstadistica = {
-                            viewModel.obtenerPuntuacion(viewModel.peliculaSelcionada)
-                            navController.navigate(Pantallas.PantallaEstadisticas.name)
-                        })
+                        }) {
+                            viewModel.actualizarPelisVistas()
+                        }
                     }
 
                     else -> {
@@ -183,33 +185,41 @@ fun PeliculasApp(
 
             }
             composable(route = Pantallas.PantallaPelisVistas.name) {
+
                 when (peliculasVistasUIState) {
                     is PeliculasVistasUIState.ObtenerExitoTodos -> {
+                        MostrarPelis(
+                            peliculas = viewModel.peliculasVistas,
+                            onClickPeli = {
+                                viewModel.actualizarPeliculaPulsada(it)
+                                viewModel.actualizarPeliculaVista(it)
+                            },
+                            peliculaSelcionada = viewModel.peliculaSelcionadaVista,
+                            onClickReproducir = {
+                                mostrarDialogo = true
+                            },
+                            Dialogo = {
+                                VerPelicula(onVerPelicula = {
+                                    viewModel.actualizarVisualizacion()
+                                }, onCambiarDialogo = {
+                                    mostrarDialogo = false
+                                }, mostrarDialogo
+                                )
+                            },
+                            onClickEstadistica = {
+                                viewModel.obtenerPuntuacion(viewModel.peliculaSelcionada)
+                                navController.navigate(Pantallas.PantallaEstadisticas.name)
+                            },
+                            onPrimeraEntradaEjecutar = {
+                                viewModel.actualizarPelisVistas()
+                            }
+                        )
 
-                        MostrarPelis(viewModel.peliculasVistas.toList(), onClickPeli = {
-                            viewModel.actualizarPeliculaPulsada(it)
-                            viewModel.actualizarPeliculaVista(it)
-                        }, viewModel.peliculaSelcionadaVista, onClickReproducir = {
-                            mostrarDialogo = true
-                        }, Dialogo = {
-                            VerPelicula(onVerPelicula = {
-                                viewModel.actualizarVisualizacion()
-                            }, onCambiarDialogo = {
-                                mostrarDialogo = false
-                            }, mostrarDialogo
-                            )
-                        }, onClickEstadistica = {
-                            viewModel.obtenerPuntuacion(viewModel.peliculaSelcionada)
-                            navController.navigate(Pantallas.PantallaEstadisticas.name)
-                        })
-                        for (peli in peliculasVistasUIState.peliculasVistas) {
-                            Text(peli.nombrePeli)
-                        }
-                        Column {
-                            Text(text = "Cantidad de pelis, " + viewModel.listaPelis.toList().size)
-                            Text(text = "Cantidad de pelis, " + viewModel.listaPelisVistas.toList().size)
-                        }
 
+                    }
+
+                    is PeliculasVistasUIState.Cargando -> {
+                        viewModel.actualizarPelisVistas()
                     }
 
                     else -> {

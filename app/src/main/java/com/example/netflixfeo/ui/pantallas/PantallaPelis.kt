@@ -33,8 +33,10 @@ fun MostrarPelis(
     peliculaSelcionada: Pelicula,
     onClickEstadistica: () -> Unit,
     onClickReproducir: () -> Unit,
-    Dialogo: @Composable () -> Unit
+    Dialogo: @Composable () -> Unit,
+    onPrimeraEntradaEjecutar: () -> Unit = {}
 ) {
+    onPrimeraEntradaEjecutar()
     Column(modifier = Modifier.padding(10.dp)) {
         LazyRow {
             items(peliculas) { peli ->

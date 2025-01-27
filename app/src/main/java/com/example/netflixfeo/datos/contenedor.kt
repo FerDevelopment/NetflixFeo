@@ -1,7 +1,6 @@
 package com.example.netflixfeo.datos
 
 import android.content.Context
-import com.example.netflixfeo.conexion.PeliculaVistaBaseDatos
 import com.example.netflixfeo.conexion.PelisApiServidorApi
 import com.example.netflixfeo.conexion.PuntuacionBaseDatos
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
@@ -34,7 +33,8 @@ class PelisContenedorApp(private val context: Context) : ContenedorApp {
 
     override val peliculasVistasRepositorio: PeliculasVistasRepositorio by lazy {
         ConexionPeliculasVistasRepositorio(
-            PeliculaVistaBaseDatos.obtenerBaseDatos(context).peliculasVistaDao()
+            PuntuacionBaseDatos.obtenerBaseDatos(context).peliculaVistasDao()
         )
+
     }
 }

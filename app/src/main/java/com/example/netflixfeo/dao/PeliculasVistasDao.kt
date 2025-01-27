@@ -11,8 +11,8 @@ import com.example.netflixfeo.modelo.PeliculaVista
 @Dao
 interface PeliculasVistasDao {
 
-    @Query("SELECT * from PeliculaVista WHERE nombrePeli = :id")
-    suspend fun obtenerPeliculaVista(id: String): PeliculaVista
+    @Query("SELECT Count(*) from PeliculaVista WHERE nombrePeli = :id")
+    suspend fun obtenerPeliculaVista(id: String): Int
 
     @Query("SELECT * from PeliculaVista")
     suspend fun obtenerTodasLasPeliculasVistas(): List<PeliculaVista>
