@@ -3,4 +3,5 @@
     <string name="imagen_peli">imagen de una peli</string>
     <string name="pelis">peliculas</string>
     <string name="estadisticas">Estadisticas</string>
+    <string name="pelisVistas">Peliculas Vistas</string>
 </resources>

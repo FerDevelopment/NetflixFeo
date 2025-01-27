@@ -1,19 +1,21 @@
 package com.example.netflixfeo.datos
 
+import android.content.Context
+import com.example.netflixfeo.conexion.PeliculaVistaBaseDatos
 import com.example.netflixfeo.conexion.PelisApiServidorApi
 import com.example.netflixfeo.conexion.PuntuacionBaseDatos
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import android.content.Context
 
 interface ContenedorApp {
     val peliculasRepositorioServidor: PeliculasRepositorioServidor
     val puntuacionRepositorio: PuntuacionRepositorio
+    val peliculasVistasRepositorio: PeliculasVistasRepositorio
 }
 
-class PelisContenedorApp (private val context: Context) : ContenedorApp {
+class PelisContenedorApp(private val context: Context) : ContenedorApp {
     private val baseUrl = "https://basedatosandroid.onrender.com/"
     private val json = Json { ignoreUnknownKeys = true }
     private val retrofit = Retrofit.Builder()
@@ -28,5 +30,11 @@ class PelisContenedorApp (private val context: Context) : ContenedorApp {
 
     override val puntuacionRepositorio: PuntuacionRepositorio by lazy {
         ConexionPuntuacionRepositorio(PuntuacionBaseDatos.obtenerBaseDatos(context).puntuacionDao())
+    }
+
+    override val peliculasVistasRepositorio: PeliculasVistasRepositorio by lazy {
+        ConexionPeliculasVistasRepositorio(
+            PeliculaVistaBaseDatos.obtenerBaseDatos(context).peliculasVistaDao()
+        )
     }
 }

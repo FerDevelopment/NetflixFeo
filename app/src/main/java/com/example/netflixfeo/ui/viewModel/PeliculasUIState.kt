@@ -1,5 +1,6 @@
 package com.example.netflixfeo.ui.viewModel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,8 +12,10 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.netflixfeo.Peliculas
 import com.example.netflixfeo.datos.PeliculasRepositorioServidor
+import com.example.netflixfeo.datos.PeliculasVistasRepositorio
 import com.example.netflixfeo.datos.PuntuacionRepositorio
 import com.example.netflixfeo.modelo.Pelicula
+import com.example.netflixfeo.modelo.PeliculaVista
 import com.example.netflixfeo.modelo.Puntuacion
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -28,30 +31,49 @@ sealed interface PeliculasUIState {
 
      */
 
-    object Error : PeliculasUIState
-    object Cargando : PeliculasUIState
+    data object Error : PeliculasUIState
+    data object Cargando : PeliculasUIState
 }
 
 sealed interface PuntuacionUIState {
     data class ObtenerExitoTodos(val puntuaciones: List<Puntuacion>) : PuntuacionUIState
     data class ObtenerExito(val puntuacion: Puntuacion) : PuntuacionUIState
 
-    object CrearExito : PuntuacionUIState
-    object ActualizarExito : PuntuacionUIState
-    object Error : PuntuacionUIState
-    object Cargando : PuntuacionUIState
+    data object CrearExito : PuntuacionUIState
+    data object ActualizarExito : PuntuacionUIState
+    data object Error : PuntuacionUIState
+    data object Cargando : PuntuacionUIState
+}
+
+sealed interface PeliculasVistasUIState {
+    data class ObtenerExitoTodos(val peliculasVistas: List<PeliculaVista>) : PeliculasVistasUIState
+    data class ObtenerExito(val peliculaVista: PeliculaVista) : PeliculasVistasUIState
+
+    data object CrearExito : PeliculasVistasUIState
+    data object ActualizarExito : PeliculasVistasUIState
+    data object Error : PeliculasVistasUIState
+    data object Cargando : PeliculasVistasUIState
 }
 
 class PeliculaViewModel(
     private val peliculasRepositorioServidor: PeliculasRepositorioServidor,
-    private val puntuacionRepositorio: PuntuacionRepositorio
+    private val puntuacionRepositorio: PuntuacionRepositorio,
+    private val peliculasVistasRepositorio: PeliculasVistasRepositorio
 ) : ViewModel() {
     var peliculasUIState: PeliculasUIState by mutableStateOf(PeliculasUIState.Cargando)
-    var peliculaSelcionada: Pelicula by mutableStateOf(Pelicula("", "", "", 0, ""))
 
     var puntuacionUIState: PuntuacionUIState by mutableStateOf(PuntuacionUIState.Cargando)
         private set
 
+    var peliculaVistaUIState: PeliculasVistasUIState by mutableStateOf(PeliculasVistasUIState.Cargando)
+
+    var peliculaSelcionada: Pelicula by mutableStateOf(Pelicula("", "", "", 0, ""))
+
+    var peliculaSelcionadaVista: Pelicula by mutableStateOf(Pelicula("", "", "", 0, ""))
+
+    var listaPelisVistas: List<PeliculaVista> = listOf()
+
+    var listaPelis: List<Pelicula> = listOf()
 
     var puntuacionPeliPulsada: Puntuacion by mutableStateOf(
         Puntuacion(
@@ -60,16 +82,18 @@ class PeliculaViewModel(
     )
         private set
 
+    var peliculasVistas: MutableList<Pelicula> = mutableListOf()
+
     fun obtenerPelis() {
         viewModelScope.launch {
             peliculasUIState = PeliculasUIState.Cargando
             peliculasUIState = try {
-                val listaPelis = peliculasRepositorioServidor.obtenerPeliculas()
-
+                val listaPeliss = peliculasRepositorioServidor.obtenerPeliculas()
+                listaPelis = listaPeliss
                 if (peliculaSelcionada.nombre.equals("")) {
                     peliculaSelcionada = listaPelis.get(0)
                 }
-                PeliculasUIState.ObtenerPelis(listaPelis)
+                PeliculasUIState.ObtenerPelis(listaPeliss)
             } catch (e: IOException) {
                 PeliculasUIState.Error
             } catch (e: HttpException) {
@@ -100,6 +124,10 @@ class PeliculaViewModel(
         }
     }
 
+    fun actualizarPeliculaVista(pelicula: Pelicula) {
+        peliculaSelcionadaVista = pelicula
+    }
+
     fun actualizarPuntosPuntuacion(puntos: Double) {
         puntuacionPeliPulsada = puntuacionPeliPulsada.copy(puntuacion = puntos)
         actualizarOSubirPuntuacion(puntuacionPeliPulsada)
@@ -124,6 +152,64 @@ class PeliculaViewModel(
 
     }
 
+    fun actualizarListaPeliculasVistas() {
+        viewModelScope.launch {
+            for (peliculaVista in listaPelisVistas) {
+                for (pelicula in listaPelis) {
+                    Log.e("A", "Paso por aqui")
+                    if (pelicula.nombre.equals(peliculaVista.nombrePeli)) {
+                        Log.e("B", "Me anyado")
+                        peliculasVistas.plus(pelicula)
+                        break
+                    }
+                }
+            }
+
+
+        }
+
+
+    }
+
+
+    fun subirPeliculaVista() {
+
+        viewModelScope.launch {
+            try {
+                peliculasVistasRepositorio.obtenerPeliculaVista(peliculaSelcionada.nombre)
+            } catch (e: Exception) {
+                peliculasVistasRepositorio.insertar(PeliculaVista(peliculaSelcionada.nombre))
+
+            }
+        }
+
+
+    }
+
+    fun actualizarPelisVistas() {
+        viewModelScope.launch {
+            obtenerPelisVistas()
+            actualizarListaPeliculasVistas()
+        }
+
+
+    }
+
+    private fun obtenerPelisVistas() {
+        viewModelScope.launch {
+            peliculaVistaUIState = PeliculasVistasUIState.Cargando
+            peliculaVistaUIState = try {
+                val listaPelis = peliculasVistasRepositorio.obtenerTodasLasPeliculasVistas()
+                listaPelisVistas = listaPelis
+                PeliculasVistasUIState.ObtenerExitoTodos(listaPelis)
+            } catch (e: IOException) {
+                PeliculasVistasUIState.Error
+            } catch (e: HttpException) {
+                PeliculasVistasUIState.Error
+            }
+        }
+    }
+
     fun actualizarPeliculaPulsada(pelicula: Pelicula) {
         peliculaSelcionada = pelicula
     }
@@ -142,9 +228,12 @@ class PeliculaViewModel(
                 val aplicacion = (this[APPLICATION_KEY] as Peliculas)
                 val peliculaRepo = aplicacion.contenedor.peliculasRepositorioServidor
                 val puntuacionRepo = aplicacion.contenedor.puntuacionRepositorio
+                val peliculasVistasRepo = aplicacion.contenedor.peliculasVistasRepositorio
                 PeliculaViewModel(
                     peliculasRepositorioServidor = peliculaRepo,
-                    puntuacionRepositorio = puntuacionRepo
+                    puntuacionRepositorio = puntuacionRepo,
+                    peliculasVistasRepositorio = peliculasVistasRepo
+
                 )
             }
         }

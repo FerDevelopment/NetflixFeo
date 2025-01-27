@@ -8,7 +8,7 @@ import com.example.netflixfeo.ui.PeliculasApp
 import com.example.netflixfeo.ui.theme.NetflixFeoTheme
 
 class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState : Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
