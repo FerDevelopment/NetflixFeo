@@ -80,7 +80,8 @@ fun MostrarPeli(peliculaSelcionada: Pelicula) {
 fun VerPelicula(onVerPelicula: () -> Unit, onCambiarDialogo: () -> Unit, ver: Boolean) {
 
     if (ver) {
-        AlertDialog(title = { Text("Ver pelicula") },
+        AlertDialog(
+            title = { Text("Ver pelicula") },
             text = { Text("¿Desea ver la pelicula, mi reina/rey?") },
             confirmButton = {
                 Button(

@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class Usuario(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val nombre: String,
-    val telefeno: String,
+    var nombre: String,
+    var telefeno: String,
 )

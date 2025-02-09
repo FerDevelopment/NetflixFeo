@@ -4,4 +4,9 @@
     <string name="pelis">peliculas</string>
     <string name="estadisticas">Estadisticas</string>
     <string name="pelisVistas">Peliculas Vistas</string>
+    <string name="label_id">id</string>
+    <string name="label_nombre">nombre</string>
+    <string name="label_edad">edad</string>
+    <string name="label_activo">activo</string>
+    <string name="button_save">boton pa guardar</string>
 </resources>

@@ -71,6 +71,7 @@ dependencies {
     implementation(libs.coil.kt)
     implementation(libs.androidx.room.common)
     implementation(libs.androidx.room.runtime)
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.ktx)
